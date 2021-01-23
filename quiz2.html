@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Quiz 2</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+</head>
+<body>
+    <div id="app">
+        <input type="text" name="addName" id="addName" placeholder="Masukkan Nama" v-model="addName"> <button @click="tambah_item">{{ namaTombol }}</button>
+        <ul v-for="(user, index) in users">
+            <li>{{ user.name }} <button @click="ubah_data(index)">Edit</button> || <button @click="hapus_item(index)">Delete</button></li>
+        </ul>
+    </div>  
+    
+    <script src="vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el : '#app',
+            data : {
+                namaTombol : 'Add',
+                addName    : '',
+                aindex     : '',
+                users : [
+                    {
+                        name : 'Muhammad Iqbal Mubarok'
+                    },
+                    {
+                        name : 'Ruby Purwanti'
+                    },
+                    {
+                        name : 'Faqih Muhammad'
+                    }
+                ]
+            },
+
+            methods : {
+                tambah_item : function(){
+                    if(this.namaTombol=="Add"){
+                        if(this.addName.trim()==false){
+                           confirm("Nama Jangan Kosong");
+                        }
+                        else{
+                            this.users.push({'name' : this.addName});
+                            this.addName = ''; 
+                        }                       
+                    }
+                    else{
+                        this.users[this.aindex].name = this.addName;
+                        this.namaTombol = 'Add';
+                        this.addName = '';
+                    };
+                }, 
+
+                hapus_item : function(index){
+                    if(confirm('Anda Yakin Hapus Data ?')){
+                        this.users.splice(index,1);
+                    };
+                }, 
+
+                ubah_data : function(index){
+                    this.namaTombol = 'Update';
+                    this.addName    = this.users[index].name;
+                    this.aindex     = index;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
